@@ -28,11 +28,14 @@ item2.Copy()
 item2_Copy = frame1.Paste()
 
 martillo = RDK.MergeItems(list_items = [item1_Copy,item2_Copy])
+martillo.setVisible(False)
 posmartillo = martillo.Pose()
 martillo.setPose(posmartillo*transl(0,100,0))
 martillo.setName("martillo1_copy")
 martillo.Recolor([1,1,0,1])
-
+RDK.ShowMessage("solicitando a usuario... ",False)
 pedido = mbox("ingrese valor de escala en x,y,z desde 1 en adelante",entry="1,1,1")
 x,y,z = [int(x.replace(' ','')) for x in  pedido.split(',')]
 martillo.Scale([x,y,z])
+martillo.setVisible(True)
+RDK.ShowMessage("fin de programa ",False)
