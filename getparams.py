@@ -3,18 +3,18 @@ from robodk import*        # Robot toolbox
 
 RDK = Robolink() 
 
-robot = RDK.ItemUserPick('',ITEM_TYPE_ROBOT) 	#adquirir todos los parámetros del robot 
+robot = RDK.Item('KUKA KR 10 R1100 sixx') 	#adquirir todos los parámetros del robot 
 if not robot.Valid(): 
     quit() 
 reference = robot.Parent()  # devuelve el artículo 
 robot.setPoseFrame(reference)#establece el marco de referencia de un robot 
 pose_ref=robot.Pose()  #devuelve la posición actual del robot con matriz
-b=robodk.pose_2_xyzrpw(pose_ref) # devuelve la posición actual del robot 
+b=Pose_2_TxyzRxyz(pose_ref) # devuelve la posición actual del robot 
 
-frameletras = RDK.Item("FrameLetras",ITEM_TYPE_FRAME) 
+frameletras = RDK.Item("FrameLetrasKuka",ITEM_TYPE_FRAME) 
 robot.setPoseFrame(frameletras)
 
-tarletras = RDK.Item("Letras") 
+tarletras = RDK.Item("LetrasKuka") 
 tarletras = tarletras.Pose()
 
 
@@ -23,11 +23,14 @@ esperaorden = RDK.getParam("orden1")
 while (esperaorden < 2):
     esperaorden = RDK.getParam("orden1")
     pass
-
+robot.setSpeed(50,20)
 robot.setPoseFrame(frameletras)
-robot.MoveJ(tarletras*roty(-pi))
-RDK.RunProgram("WeldOn(1)")
+robot.MoveJ(tarletras)
 
-robot.MoveJ(tarletras*transl(100,50,0)*roty(-pi))
-robot.MoveJ(tarletras*transl(0,50,50)*roty(-pi))
-RDK.RunProgram("WeldOn(0)")
+a1 = tarletras*transl(0,150,0)
+a2 = tarletras*transl(100,150,50)
+a3 = tarletras*transl(150,0,0)
+robot.MoveL(a1)
+robot.MoveL(a2)
+robot.MoveL(a3)
+robot.MoveC(a1,a2)
