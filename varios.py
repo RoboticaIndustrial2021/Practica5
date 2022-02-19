@@ -1,5 +1,7 @@
-from robolink import *    # RoboDK API
-from robodk import *      # Robot toolbox
+from robodk.robolink import *  # RoboDK API
+from robodk.robomath import *
+from robodk.robodialogs import *
+
 from time import*
 RDK = Robolink()
 
